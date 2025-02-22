@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+     <!--Define a codigicação de caracteres da página-->
+    <meta charset="UTF-8">
+
+    <!-- Garante que o layout seja responsivo em dispositivos móveis-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Título da página-->
+    <title>Consultar Atendimentos</title>
+
+    <!--Importação do arquivo CSS para estilização da página-->
+    <link rel="stylesheet" href="consulta.css">
+</head>
+
+
+<body>
+
+    <!--Cabeçalho da página-->
+    <!--=====================================-->
+    <header>
+
+        <!-- Seção que contém o logo e o nome do sistema -->
+        <div class="logo">
+
+            <!--Imagem do logo-->
+            <img src="viber.png" alt="Logo">
+
+            <!-- Nome do sistema -->
+            <h1>Consultar Atendimentos</h1>
+        </div>
+
+        <!--Menu de Navegação-->
+        <nav>
+            <!--Botão para voltar para a HOME-->
+            <a href="Home.html">Voltar para a Home</a>
+        </nav>
+
+    </header>
+    <!--=====================================-->
+    
+    <!--Área Principal da página-->
+    <!--=====================================-->
+    <main class="container">
+
+        <!--Seção contendo matriz com todos atendimentos já registrados-->
+        <section class="list-section">
+            <!--Sub - informando que ali estão os atendimentos registrados-->
+            <h2>Atendimentos Registrados</h2>
+
+            <!--Tabela que vai armazenar os atendimentos já registrados-->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Call</th>
+                        <th>Data/Hora</th>
+                        <th>CPF Cliente</th>
+                        <th>Tipo do Problema</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-reclamacoes"> <!-- Corrigido ID -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <!--=====================================-->
+
+    /**
+    * ==============================================================
+    *  Script para Carregar os Atendimentos da API e Exibir na Tabela
+    * ==============================================================
+    * 
+    * Objetivo:
+    * - Buscar os atendimentos armazenadas no banco de dados via API Flask.
+    * - Exibir os atendimentos em uma tabela na interface do usuário.
+    * - Mostrar mensagem apropriada caso não existam reclamações registradas.
+    * 
+    * Por que utilizar?
+    * - Atualiza automaticamente a lista de reclamações sem necessidade de recarregar a página.
+    * - Melhora a experiência do usuário ao fornecer dados em tempo real.
+    * - Usa `fetch()` para buscar informações da API de forma assíncrona e eficiente.
+    * ==============================================================
+    */
+
+    <script>
+
+        // Função assíncrona para carregar atendimentos da API
+        async function carregarReclamacoes() {
+            try {
+                // Realiza uma requisição GET para obter a lista dos atendimentos
+                const response = await fetch("http://127.0.0.1:5000/listar_reclamacoes");
+
+                // Valida se a resposta da API foi bem - sucedida
+                if (!response.ok) {
+                    throw new Error(`Erro ${response.status}: Não foi possível buscar as reclamações.`);
+                }
+
+                // Converte a resposta para formato JSON
+                const reclamacoes = await response.json();
+
+                // Obtém a referência da tabela onde os atendimentos serão exibidos
+                const tabela = document.getElementById("tabela-reclamacoes"); 
+
+                // Limpa tabela antes de adicionar novos dados
+                tabela.innerHTML = ""; // Limpa tabela antes de adicionar novos dados
+
+                // Verifica se existem reclamações registradas
+                if (reclamacoes.length === 0) {
+                    // Caso não houver, exibe mensagem informativa
+                    tabela.innerHTML = "<tr><td colspan='5'>Nenhuma reclamação registrada.</td></tr>";
+                } else {
+                    reclamacoes.forEach((reclamacao) => {
+
+                        // Cria uma nova linha na tabela
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${reclamacao.id_call}</td>
+                            <td>${reclamacao.data_hora || "Não informado"}</td>
+                            <td>${reclamacao.cpf_cliente}</td>
+                            <td>${reclamacao.tipo_problema}</td>
+                            <td>${reclamacao.descricao}</td>
+                        `;
+                        // Adiciona essa nova linha na tabela
+                        tabela.appendChild(tr); 
+                    });
+                }
+            } catch (error) {
+                // Captura e exibe erros no console
+                console.error("Erro ao carregar reclamações:", error);
+
+                // Exibe alerta para o usuário em caso de falha na comunicação com a API
+                alert("Erro ao carregar reclamações. Verifique se a API está rodando corretamente.");
+            }
+        }
+
+        // Chama a função carregarReclamacoes assim que o conteúdo da página for carregado
+        document.addEventListener("DOMContentLoaded", carregarReclamacoes);
+    </script>
+</body>
+</html>
