@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR"> 
+<head>
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres para suportar acentos e caracteres especiais -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Garante que o layout seja responsivo em dispositivos móveis -->
+    <title>CALL SYSTEM</title> <!-- Título da página exibido na aba do navegador -->
+    
+    <!-- Importação do arquivo CSS para estilização da página -->
+    <link rel="stylesheet" href="Home.css">
+
+    <!-- Importação da biblioteca de ícones FontAwesome para exibir ícones na interface -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header> <!-- Cabeçalho da página -->
+        <div class="logo"> <!-- Seção que contém o logo e o nome do sistema -->
+            <img src="viber.png" alt="Logo Sistema Call System"> <!-- Imagem do logo -->
+            <h1>Call System</h1> <!-- Nome do sistema -->
+        </div>
+
+        <nav> <!-- Barra de navegação -->
+            <a href="#" id="mensagem">Mensagem de recepção</a> <!-- Mensagem dinâmica de saudação -->
+        </nav>
+    </header>
+
+    <main> <!-- Conteúdo principal da página -->
+        <section class="hero"> <!-- Seção principal de apresentação -->
+            <h2>CALL SYSTEM</h2> <!-- Título principal -->
+            <p>Registre os atendimentos realizados e consulte os atendimentos já feitos.</p> <!-- Descrição da funcionalidade do sistema -->
+            
+            <div class="buttons"> <!-- Botões de navegação -->
+                <a href="cadastro.html" class="btn">Cadastrar</a> <!-- Link para a página de cadastro -->
+                <a href="consulta.html" class="btn">Consultar</a> <!-- Link para a página de consulta -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Aguarda o carregamento completo do DOM antes de executar o código JavaScript
+        document.addEventListener("DOMContentLoaded", function() {
+            const mensagemElement = document.getElementById("mensagem"); // Obtém o elemento do link da mensagem
+            const agora = new Date(); // Obtém a data e hora atuais
+            const hora = agora.getHours(); // Extrai apenas a hora atual
+
+            let mensagem = ""; // Variável para armazenar a mensagem de saudação
+            let icone = ""; // Variável para armazenar o ícone correspondente
+
+            // Define a mensagem e o ícone com base no horário do dia
+            if (hora < 12) {
+                mensagem = "Bom dia!";
+                icone = '<i class="fas fa-sun"></i>'; // Ícone de sol para a manhã
+                mensagemElement.style.color = "#ffcc00"; // Define a cor do texto como amarelo
+            } else if (hora < 18) {
+                mensagem = "Boa tarde!";
+                icone = '<i class="fas fa-cloud-sun"></i>'; // Ícone de sol com nuvem para a tarde
+                mensagemElement.style.color = "#ff9900"; // Define a cor do texto como laranja
+            } else {
+                mensagem = "Boa noite!";
+                icone = '<i class="fas fa-moon"></i>'; // Ícone de lua para a noite
+                mensagemElement.style.color = "#99ccff"; // Define a cor do texto como azul claro
+            }
+
+            // Insere a mensagem e o ícone dentro do elemento HTML
+            mensagemElement.innerHTML = `${icone} ${mensagem}`;
+        });
+    </script>
+
+</body>
+</html>
