@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--Define a codigicação de caracteres da página-->
+    <meta charset="UTF-8">
+
+    <!-- Garante que o layout seja responsivo em dispositivos móveis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Título da página-->
+    <title>Cadastro dos Atendimentos</title>
+
+    <!--Importação do arquivo CSS para estilização da página-->
+    <link rel="stylesheet" href="cadastro.css">
+</head>
+
+<body>
+    <!--Cabeçalho da página-->
+    <!--=====================================-->
+    <header>
+
+        <!-- Seção que contém o logo e o nome do sistema -->
+        <div class="logo">
+
+            <!--Imagem do logo-->
+            <img src="viber.png" alt="Logo">
+
+            <!-- Nome do sistema -->
+            <h1>Cadastro dos Atendimentos</h1>
+        </div>
+
+        <!--Menu de Navegação-->
+        <nav>
+            <!--Botão para voltar para a HOME-->
+            <a href="Home.HTML">Voltar para Home</a>
+        </nav>
+
+    </header>
+    <!--=====================================-->
+
+    <!--Área Principal da página-->
+    <!--=====================================-->
+    <main class="container">
+
+        <!--Seção contendo o formulário de cadastro do atendimento-->
+        <section class="form-section">
+            <!--Sub - Título solicitando o preenchimnento dos dados-->
+            <h2> Preencha os dados do atendimento</h2>
+
+            <!--Formulário de cadastro de atendimento-->
+            <form id="form-section">
+                <label for="id_call"> ID da Call:</label>
+                <!--Campo para inserir o ID da chamada-->
+                <input type="text" id="id_call" required>
+
+                <label for="cpf_cliente"> CPF do Cliente</label>
+                <!--Campo para inserir o CPF do cliente-->
+                <input type="text" id="cpf_cliente" required>
+
+                <label for="tipo_problema"> Tipo do Problema:</label>
+                <!--Lista com todos os tipos de problemas disponiveis-->
+                <select id="tipo_problema" required>
+                    <option value="">Selecione um problema</option>
+                    <option value="Massiva">Massiva</option>
+                    <option value="Técnico não compareceu">Técnico não compareceu</option>
+                    <option value="Modem">Modem</option>
+                    <option value="Sinal">Sinal</option>
+                    <option value="Conta">Conta</option>
+                    <option value="Plano/Oferta/Desconto">Plano/Oferta/Desconto</option>
+                    <option value="Reparo">Reparo</option>
+                </select>
+
+                <label for="descricao">Descrição:</label>
+                <!--Campo aberto para descrição detalhada sobre o que o cliente está relatando-->
+                <textarea id="descricao" required></textarea>
+
+                <!--Botão para submitar os dados do fórmulário-->
+                <button type="submit" class="btn">Registrar Atendimento</button>
+            </form>
+        </section>
+    </main>
+    <!--=====================================-->
+    
+    /**
+    * ========================================================================
+    *  Script para Captura e Envio dos dados via API Flask
+    * ========================================================================
+    * 
+    * Objetivo:
+    * - Capturar os dados preenchidos no formulário de cadastro de atendimento.
+    * - Enviar esses dados para a API Flask através de uma requisição HTTP POST.
+    * - Exibir mensagens de sucesso ou erro com base na resposta da API.
+    * 
+    * Por que utilizar?
+    * - Permite comunicação assíncrona com a API, evitando recarregamento da página.
+    * - Melhora a experiência do usuário ao fornecer feedback imediato sobre o envio.
+    * - Usa `fetch()` para fazer requisições HTTP de maneira eficiente e moderna.
+    * =========================================================================
+    */
+    <script>
+        // Adiciona um evento para capturar o envio do formulário
+        document.getElementById("form-section").addEventListener("submit", async function(event) {
+            // Impede o recarregamento da página ao enviar os dados
+            event.preventDefault();
+
+            // Captura os valores inseridos no formulário
+            const id_call = document.getElementById("id_call").value;
+            const cpf_cliente = document.getElementById("cpf_cliente").value;
+            const tipo_problema = document.getElementById("tipo_problema").value;
+            const descricao = document.getElementById("descricao").value;
+
+            // Criação de um objeto a partir dos dados capturados do formulário
+            const reclamacao = { id_call, cpf_cliente, tipo_problema, descricao };
+
+            // Realizamos um tratamento de exceções a partir da conexão com a API
+            try {
+
+                // Envia os dados do formulário para a API via método POST
+                const response = await fetch("http://127.0.0.1:5000/registrar_reclamacao", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reclamacao)
+                });
+
+                // Converter a resposta da API em formato JSON
+                const data = await response.json();
+
+                // Verifica se a resposta da API retorna algum erro
+                if (!response.ok) {
+                    alert(`Erro: ${data.erro}`);
+                } else {
+                    alert("Reclamação registrada com sucesso!");
+                    document.getElementById("form-section").reset();
+                }
+                // E caso ela retorna algum erro, vai exibir essa mensagem
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("Erro ao conectar com o servidor. Verifique se a API está rodando.");
+                
+            }
+        });
+    </script>
+</body>
+</html>
