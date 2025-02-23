@@ -54,3 +54,23 @@ Este projeto é composto por:
 |-----------------|--------------| --------------|
 | POST| /registrar_atendimentos | Registra um novo atendimento
 | GET | /listar_atendimentos | 	Lista todos os atendimentos
+
+
+## 🎨 **Interfaces**
+
+* HOME
+  * Página inicial com opções que permite o usuário optar por registrar ou consultar os atendimentos
+
+  ![alt text](image.png)
+
+* CADASTRO
+  * Formulário para registrar os novos atendimentos
+
+  ![alt text](image-2.png)
+
+* CONSULTA
+  * Exibe todos os atendimentos já registrados a partir de uma tabela
+
+  ![alt text](image-3.png)
+
+#
