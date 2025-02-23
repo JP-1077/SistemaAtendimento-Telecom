@@ -61,7 +61,7 @@ Este projeto é composto por:
 * HOME
   * Página inicial com opções que permite o usuário optar por registrar ou consultar os atendimentos
 
-  ![alt text](image.png)
+  ![alt text](HOME.png)
 
 * CADASTRO
   * Formulário para registrar os novos atendimentos
