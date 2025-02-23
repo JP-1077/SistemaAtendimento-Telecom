@@ -1,5 +1,3 @@
-![Logo Sentix](Sentix.png)
-
 #  📞 **Sistema de Atendimento - Call System**
 
 
