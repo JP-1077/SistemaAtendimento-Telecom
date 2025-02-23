@@ -66,11 +66,10 @@ Este projeto é composto por:
 * CADASTRO
   * Formulário para registrar os novos atendimentos
 
-  ![alt text](image-2.png)
+  ![alt text](cadastro.png)
 
 * CONSULTA
   * Exibe todos os atendimentos já registrados a partir de uma tabela
 
-  ![alt text](image-3.png)
-
+  ![alt text](consulta.png)
 #
